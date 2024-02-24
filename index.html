@@ -1,26 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Table</title>
 </head>
 <body>
-    <h1>User Data</h1>
-      <script>
-        // create a table element inside the html doc
-        // fetch data from the JSON API and populate the table with that
-        // 
-        const userData = fetch('https://jsonplaceholder.typicode.com/todos/1')
-            .then(response => response.json())
-            .then(json => console.log(json))
-      </script>  
-    <table>
-        <col id="Name">
-    </table>
-        <script>
-            document.getElementById('userData')
-        </script>
+
+<table id="myTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<script>
+window.onload = function() {
+  fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(data => populateTable(data))
+    .catch(error => console.error(error));
+}
+
+function populateTable(users) {
+  var tableBody = document.querySelector('#myTable tbody');
+
+  users.forEach(function(user) {
+    var row = document.createElement('tr');
+    var nameCell = document.createElement('td');
+    var emailCell = document.createElement('td');
+    var phoneCell = document.createElement('td');
+
+    nameCell.textContent = user.name;
+    emailCell.textContent = user.email;
+    phoneCell.textContent = user.phone || 'N/A'; 
+
+    row.appendChild(nameCell);
+    row.appendChild(emailCell);
+    row.appendChild(phoneCell);
+
+    tableBody.appendChild(row);
+  });
+}
+</script>
+
 </body>
 </html>
